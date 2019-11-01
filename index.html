@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Feed System</title>
+	<script>
+		var file = "blogs.txt"; //Location and Name of the file where blogs are stored 
+		var bps = 5; //Blogs Per Page
+		var separator = "?separator?"; //String the separates every blog on a page
+
+		function disp(x){ 
+			var XHR = new XMLHttpRequest();
+			var str;
+			XHR.open("GET", file, true);
+			XHR.send();
+			XHR.onreadystatechange = function() {
+				if(XHR.readyState === 4 && XHR.status === 200){ 
+					var arr = XHR.responseText.split(separator);
+					document.getElementById('posts').innerHTML ="";
+					for(var i = 0; i < bps; i++)
+						if(typeof(str = arr[((x-1)*bps)+i]) !== 'undefined')
+							document.getElementById('posts').innerHTML += str;
+				}
+			}
+		}
+		window.onload = function(){disp(1);};
+	</script>
+</head>
+<body>
+	<h1><b>Feed</b></h1>
+	<div id="posts"></div>
+	<p>
+		Pages  
+		<a onclick="disp(1)" href="javascript:void(0);">1</a> - 
+		<a onclick="disp(2)" href="javascript:void(0);">2</a> - 
+	</p>
+</body>
+</html>
